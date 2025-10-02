@@ -1,16 +1,20 @@
 
 #include <stdint.h>
 #include "rprintf.h"
+#include "io.h"
+//kb poll once function
+#include "kb.h"
+
 
 #define MULTIBOOT2_HEADER_MAGIC         0xe85250d6
 
 const unsigned int multiboot_header[]  __attribute__((section(".multiboot"))) = {MULTIBOOT2_HEADER_MAGIC, 0, 16, -(16+MULTIBOOT2_HEADER_MAGIC), 0, 12};
 
-uint8_t inb (uint16_t _port) {
-    uint8_t rv;
-    __asm__ __volatile__ ("inb %1, %0" : "=a" (rv) : "dN" (_port));
-    return rv;
-}
+// uint8_t inb (uint16_t _port) {
+//     uint8_t rv;
+//     __asm__ __volatile__ ("inb %1, %0" : "=a" (rv) : "dN" (_port));
+//     return rv;
+// }
 
 struct termbuf {
     //what to write
@@ -114,13 +118,25 @@ int putc(int ch) {
 }
 
 void main() {
+
+    //HOMEWORK 1:
+    // clear_screen();
+
+    // for(int i = 0; i < 25; i ++) {
+    //     esp_printf(putc, "Hello this is a test of the putc func\r\n");
+
+    //     esp_printf(putc, "numbers and chars work: %d, char:%c\r\n", 123, 'A');
+    // }
+
+    // for(;;) {}
+
+
+    //HOMEWORK 2:
     clear_screen();
-
-    for(int i = 0; i < 25; i ++) {
-        esp_printf(putc, "Hello this is a test of the putc func\r\n");
-
-        esp_printf(putc, "numbers and chars work: %d, char:%c\r\n", 123, 'A');
+    for(;;) {
+        //print the scan code
+        kb_poll_once();   
+        //pause so it doesn't break
+        io_wait();
     }
-
-    for(;;) {}
 }
