@@ -27,6 +27,7 @@ OBJS = \
 	rprintf.o \
 	io.o \
 	kb.o \
+	page.o \
 
 # Make sure to keep a blank line here after OBJS list
 
