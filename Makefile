@@ -28,6 +28,7 @@ OBJS = \
 	io.o \
 	kb.o \
 	page.o \
+	paging.o \
 
 # Make sure to keep a blank line here after OBJS list
 
@@ -66,7 +67,8 @@ run:
 	qemu-system-i386 -hda rootfs.img
 
 debug:
-	./launch_qemu.sh
+	screen -S qemu -d -m qemu-system-i386 -S -s -hda rootfs.img -monitor stdio
+	TERM=xterm i386-elf-gdb -x gdb_os.txt && killall qemu-system-i386
 
 clean:
 	rm -f grub.img kernel rootfs.img obj/*
